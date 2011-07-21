@@ -1,12 +1,12 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.8.0
+Version:	0.8.1
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	0695e200494612a2da770e34297d86ee
+# Source0-md5:	279c59bc3c21081ed354fbdd5c757688
 URL:		http://spice-space.org/
 BuildRequires:	ConsoleKit-devel
 BuildRequires:	dbus-devel
