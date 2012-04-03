@@ -1,19 +1,28 @@
+#
+# Conditional build:
+%bcond_with	systemd	# use systemd instead of ConsoleKit for session tracking
+#
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.8.1
+Version:	0.10.1
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	279c59bc3c21081ed354fbdd5c757688
+# Source0-md5:	0e69a13e4df37eefb52b1df795b22755
 URL:		http://spice-space.org/
-BuildRequires:	ConsoleKit-devel
+%{!?with_systemd:BuildRequires:	ConsoleKit-devel}
 BuildRequires:	dbus-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	spice-protocol >= 0.8.0
+%{?with_systemd:BuildRequires:	systemd-devel >= 42}
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
+BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
+BuildRequires:	xorg-lib-libpciaccess-devel >= 0.10
+Requires:	xorg-lib-libpciaccess >= 0.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -35,7 +44,8 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 
 %build
 %configure \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-session-info=%{?with_systemd:systemd}%{!?with_systemd:console-kit}
 %{__make}
 
 %install
@@ -64,7 +74,7 @@ fi
 %attr(755,root,root) %{_sbindir}/spice-vdagentd
 # TODO: PLDify
 %attr(754,root,root) /etc/rc.d/init.d/spice-vdagentd
-# TODO: change to PLD-compliat way
-#/etc/tmpfiles.d/spice-vdagentd.conf
+# XXX: should be /usr/lib/tmpfiles.d?
+/etc/tmpfiles.d/spice-vdagentd.conf
 /etc/xdg/autostart/spice-vdagent.desktop
 #%{_datadir}/gdm/autostart/LoginWindow/spice-vdagent.desktop
