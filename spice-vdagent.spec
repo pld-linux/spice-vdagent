@@ -5,15 +5,16 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.10.1
+Version:	0.12.0
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	0e69a13e4df37eefb52b1df795b22755
+# Source0-md5:	a7de4d6682099b7af9c289ef3e2996f7
 URL:		http://spice-space.org/
 %{!?with_systemd:BuildRequires:	ConsoleKit-devel}
 BuildRequires:	dbus-devel
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	spice-protocol >= 0.8.0
 %{?with_systemd:BuildRequires:	systemd-devel >= 42}
@@ -45,6 +46,7 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 %build
 %configure \
 	--disable-silent-rules \
+	--with-init-script=systemd+redhat \
 	--with-session-info=%{?with_systemd:systemd}%{!?with_systemd:console-kit}
 %{__make}
 
@@ -74,7 +76,12 @@ fi
 %attr(755,root,root) %{_sbindir}/spice-vdagentd
 # TODO: PLDify
 %attr(754,root,root) /etc/rc.d/init.d/spice-vdagentd
-# XXX: should be /usr/lib/tmpfiles.d?
-/etc/tmpfiles.d/spice-vdagentd.conf
 /etc/xdg/autostart/spice-vdagent.desktop
+#/etc/modules-load.d/spice-vdagentd.conf
+#/etc/rsyslog.d/spice-vdagent.conf
+/lib/systemd/system/spice-vdagentd.service
+/lib/systemd/system/spice-vdagentd.target
+/lib/udev/rules.d/70-spice-vdagentd.rules
+/usr/lib/tmpfiles.d/spice-vdagentd.conf
 #%{_datadir}/gdm/autostart/LoginWindow/spice-vdagent.desktop
+
