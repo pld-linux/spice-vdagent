@@ -5,18 +5,18 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.12.1
+Version:	0.14.0
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	1a5c8a72b0ee5dee65bf3419151d0c2c
+# Source0-md5:	da6575e1de5562ef853443eaba5bd1dc
 URL:		http://spice-space.org/
-%{!?with_systemd:BuildRequires:	ConsoleKit-devel}
-BuildRequires:	dbus-devel
+%{!?with_systemd:BuildRequires:	dbus-devel}
+BuildRequires:	glib2-devel >= 1:2.12
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.228
-BuildRequires:	spice-protocol >= 0.8.0
+BuildRequires:	spice-protocol >= 0.12.5
 %{?with_systemd:BuildRequires:	systemd-devel >= 42}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
@@ -85,3 +85,5 @@ fi
 /lib/udev/rules.d/70-spice-vdagentd.rules
 /usr/lib/tmpfiles.d/spice-vdagentd.conf
 #%{_datadir}/gdm/autostart/LoginWindow/spice-vdagent.desktop
+%{_mandir}/man1/spice-vdagent.1*
+%{_mandir}/man1/spice-vdagentd.1*
