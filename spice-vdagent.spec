@@ -5,25 +5,31 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.17.0
+Version:	0.18.0
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://www.spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	b184791c49968a54c653de9a630df1dd
+# Source0-md5:	1adcea00743142249aa417c7e39635a9
 URL:		https://www.spice-space.org/
 BuildRequires:	alsa-lib-devel >= 1.0.22
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake
 %{!?with_systemd:BuildRequires:	dbus-devel}
-BuildRequires:	glib2-devel >= 1:2.28
+BuildRequires:	glib2-devel >= 1:2.34
+BuildRequires:	gtk+3-devel >= 3.10
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	spice-protocol >= 0.12.8
-%{?with_systemd:BuildRequires:	systemd-devel >= 42}
+%{?with_systemd:BuildRequires:	systemd-devel >= 209}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel >= 1.3
 BuildRequires:	xorg-lib-libpciaccess-devel >= 0.10
+Requires:	alsa-lib >= 1.0.22
+Requires:	glib2 >= 1:2.34
+Requires:	gtk+3 >= 3.10
 Requires:	xorg-lib-libXrandr >= 1.3
 Requires:	xorg-lib-libpciaccess >= 0.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -79,12 +85,9 @@ fi
 # TODO: PLDify
 %attr(754,root,root) /etc/rc.d/init.d/spice-vdagentd
 /etc/xdg/autostart/spice-vdagent.desktop
-#/etc/rsyslog.d/spice-vdagent.conf
-/lib/systemd/system/spice-vdagentd.service
-/lib/systemd/system/spice-vdagentd.target
+%{systemdunitdir}/spice-vdagentd.service
+%{systemdunitdir}/spice-vdagentd.socket
 /lib/udev/rules.d/70-spice-vdagentd.rules
-/usr/lib/tmpfiles.d/spice-vdagentd.conf
-#%{_datadir}/gdm/autostart/LoginWindow/spice-vdagent.desktop
-#%{_datadir}/gdm/greeter/autostart/spice-vdagent.desktop
+%{systemdtmpfilesdir}/spice-vdagentd.conf
 %{_mandir}/man1/spice-vdagent.1*
 %{_mandir}/man1/spice-vdagentd.1*
