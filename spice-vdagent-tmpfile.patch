@@ -1,0 +1,12 @@
+diff -urN spice-vdagent-0.19.0.orig/Makefile.am spice-vdagent-0.19.0/Makefile.am
+--- spice-vdagent-0.19.0.orig/Makefile.am	2019-04-16 19:34:06.723014733 +0200
++++ spice-vdagent-0.19.0/Makefile.am	2019-04-16 19:34:16.186288179 +0200
+@@ -123,7 +123,7 @@
+ gdmautostart2_DATA = $(top_srcdir)/data/spice-vdagent.desktop
+ 
+ install-data-local:
+-	$(mkdir_p) $(DESTDIR)$(localstatedir)/run/spice-vdagentd
++	$(mkdir_p) $(DESTDIR)/run/spice-vdagentd
+ 
+ if INIT_SCRIPT_RED_HAT
+ initdir = $(sysconfdir)/rc.d/init.d

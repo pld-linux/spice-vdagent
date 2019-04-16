@@ -1,3 +1,5 @@
+# TODO:
+# - package gdm files
 #
 # Conditional build:
 %bcond_with	systemd	# use systemd instead of ConsoleKit for session tracking
@@ -5,12 +7,13 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.18.0
+Version:	0.19.0
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://www.spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	1adcea00743142249aa417c7e39635a9
+# Source0-md5:	5f409625f075e35238336ff11af62306
+Patch0:		%{name}-tmpfile.patch
 URL:		https://www.spice-space.org/
 BuildRequires:	alsa-lib-devel >= 1.0.22
 BuildRequires:	autoconf >= 2.59
@@ -18,9 +21,10 @@ BuildRequires:	automake
 %{!?with_systemd:BuildRequires:	dbus-devel}
 BuildRequires:	glib2-devel >= 1:2.34
 BuildRequires:	gtk+3-devel >= 3.10
+BuildRequires:	libdrm-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.228
-BuildRequires:	spice-protocol >= 0.12.8
+BuildRequires:	spice-protocol >= 0.14.0
 %{?with_systemd:BuildRequires:	systemd-devel >= 209}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
@@ -50,6 +54,7 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure \
@@ -79,7 +84,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README TODO
+%doc CHANGELOG.md README.md
 %attr(755,root,root) %{_bindir}/spice-vdagent
 %attr(755,root,root) %{_sbindir}/spice-vdagentd
 # TODO: PLDify
