@@ -25,7 +25,7 @@ BuildRequires:	libdrm-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	spice-protocol >= 0.14.1
-%{?with_systemd:BuildRequires:	systemd-devel >= 209}
+%{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXinerama-devel
@@ -57,6 +57,10 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 %patch0 -p1
 
 %build
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	--disable-silent-rules \
 	--with-init-script=systemd+redhat \
@@ -96,3 +100,6 @@ fi
 %{systemdtmpfilesdir}/spice-vdagentd.conf
 %{_mandir}/man1/spice-vdagent.1*
 %{_mandir}/man1/spice-vdagentd.1*
+# TODO: gdm
+#%{_datadir}/gdm/autostart/LoginWindow/spice-vdagent.desktop
+#%{_datadir}/gdm/greeter/autostart/spice-vdagent.desktop
