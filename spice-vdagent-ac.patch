@@ -1,0 +1,11 @@
+--- spice-vdagent-0.21.0/configure.ac.orig	2021-01-13 09:52:43.000000000 +0100
++++ spice-vdagent-0.21.0/configure.ac	2021-06-02 22:28:10.273235201 +0200
+@@ -172,7 +172,7 @@
+ fi
+ 
+ # If no CFLAGS are set, set some sane default CFLAGS
+-if test "$ac_test_CFLAGS" != set; then
++if test -z "$ac_test_CFLAGS"; then
+   DEFAULT_CFLAGS="-Wall -Werror -Wp,-D_FORTIFY_SOURCE=2 -fno-strict-aliasing -fstack-protector --param=ssp-buffer-size=4"
+   for F in $DEFAULT_CFLAGS; do
+     AC_MSG_CHECKING([whether $CC supports $F])

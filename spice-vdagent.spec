@@ -14,6 +14,7 @@ Group:		X11/Applications
 Source0:	https://www.spice-space.org/download/releases/%{name}-%{version}.tar.bz2
 # Source0-md5:	5e9862775240fc6f35b3109a21006fc6
 Patch0:		%{name}-tmpfile.patch
+Patch1:		%{name}-ac.patch
 URL:		https://www.spice-space.org/
 BuildRequires:	alsa-lib-devel >= 1.0.22
 BuildRequires:	autoconf >= 2.59
@@ -56,6 +57,7 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal}
