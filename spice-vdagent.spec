@@ -1,4 +1,5 @@
 # TODO:
+# - gtk4 as an option?
 # - package gdm files
 #
 # Conditional build:
@@ -7,24 +8,23 @@
 Summary:	Linux guest agent for SPICE
 Summary(pl.UTF-8):	Agent gościa linuksowego dla SPICE
 Name:		spice-vdagent
-Version:	0.21.0
+Version:	0.22.1
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://www.spice-space.org/download/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	5e9862775240fc6f35b3109a21006fc6
+# Source0-md5:	bcc98e716c170f58ebf44c49fdda3a2e
 Patch0:		%{name}-tmpfile.patch
-Patch1:		%{name}-ac.patch
 URL:		https://www.spice-space.org/
 BuildRequires:	alsa-lib-devel >= 1.0.22
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	dbus-devel
-BuildRequires:	glib2-devel >= 1:2.50
+BuildRequires:	glib2-devel >= 1:2.68
 BuildRequires:	gtk+3-devel >= 3.22
 BuildRequires:	libdrm-devel
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	rpmbuild(macros) >= 1.682
 BuildRequires:	spice-protocol >= 0.14.3
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	udev-devel
@@ -34,8 +34,9 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel >= 1.3
 BuildRequires:	xorg-lib-libpciaccess-devel >= 0.10
 Requires:	alsa-lib >= 1.0.22
-Requires:	glib2 >= 1:2.50
+Requires:	glib2 >= 1:2.68
 Requires:	gtk+3 >= 3.22
+Requires:	systemd-units >= 1:209
 Requires:	xorg-lib-libXrandr >= 1.3
 Requires:	xorg-lib-libpciaccess >= 0.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -57,7 +58,6 @@ honorujących /etc/xdg/autostart oraz pod GDM-em.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__aclocal}
@@ -99,6 +99,7 @@ fi
 /etc/xdg/autostart/spice-vdagent.desktop
 %{systemdunitdir}/spice-vdagentd.service
 %{systemdunitdir}/spice-vdagentd.socket
+%{systemduserunitdir}/spice-vdagent.service
 /lib/udev/rules.d/70-spice-vdagentd.rules
 %{systemdtmpfilesdir}/spice-vdagentd.conf
 %{_mandir}/man1/spice-vdagent.1*
